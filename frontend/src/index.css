@@ -1,0 +1,236 @@
+:root {
+  /* --- Theme palette --- */
+  --color-bg:               #FFFFFF;
+  --color-bg-elevated:      #FFFFFF;
+  --color-bg-subtle:        rgb(251, 250, 255);
+
+  --color-text:             #4000FF;
+  --color-text-muted:       #a894e4;
+  --color-text-heading:     #FFFFFF;
+
+  --color-accent:           #4000FF;
+  --color-accent-hover:     #8378ff;
+
+  --color-border:           #4000FF;
+  --color-selection:        #4000FF;
+
+  --color-btn-primary-bg:   #d6d1ff;
+  --color-btn-primary-text: #4000FF;
+  --color-btn-secondary-bg: #d6d1ff;
+  --color-btn-secondary-text: #4000FF;
+
+  --color-table-header-bg:  #4000FF;
+  --color-table-header-text:#FFFFFF;
+
+  --color-tag-bg:           #e9e6ff;
+  --color-chip-bg:          #e7e1f9;
+  --color-chip-selected-bg: #d5d0ff;
+
+  --color-code-bg:          #FFFFFF;
+  --color-input-bg:         #FFFFFF;
+
+  --color-error-bg:         #fde8e8;
+  --color-error-text:       #c41e1e;
+
+  /* --- Base styles --- */
+  font-family: 'ppneueumontreal', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--color-text);
+  background-color: var(--color-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Uncut-Sans';
+  src: url('./assets/fonts/Uncut-Sans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code-New-Roman';
+  src: url('./assets/fonts/Code-New-Roman-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ppneueumontreal';
+  src: url('/ppneuemontreal-book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ppneueumontreal';
+  src: url('/ppneuemontreal-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ppneueumontreal';
+  src: url('/ppneuemontreal-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ppneueubit-bold';
+  src: url('/ppneuebit-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+::selection {
+  background-color: var(--color-selection);
+  color: var(--color-bg);
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'ppneueumontreal', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 5.0em;
+  line-height: 1.1;
+  font-family: 'ppneueubit-bold', sans-serif;
+  color: var(--color-text-heading);
+  /* animation: blurFadeIn 1.5s ease-out 0.3s forwards; */
+  /* opacity: 0; */
+  /* filter: blur(10px); */
+}
+
+h2,
+h3 {
+  font-family: 'ppneueubit-bold', sans-serif;
+}
+
+button {
+  border-radius: 4px;
+  border: 2px dotted var(--color-accent);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+button:hover {
+  border: 2px solid var(--color-accent);
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  width: 6.7rem;
+  /* animation: blurFadeIn 1.5s ease-out forwards; */
+  /* opacity: 0; */
+  /* filter: blur(10px); */
+}
+
+@keyframes blurFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Dark theme override — toggled via data-theme attribute */
+[data-theme="dark"] {
+    --color-bg:               #16152a;
+    --color-bg-elevated:      #1f1e36;
+    --color-bg-subtle:        #27263f;
+
+    --color-text:             #e4e4ed;
+    --color-text-muted:       #9a9ab0;
+    --color-text-heading:     #b4adf7;
+
+    --color-accent:           #7c73f5;
+    --color-accent-hover:     #9b94f8;
+
+    --color-border:           #3a3952;
+    --color-selection:        #4a4672;
+
+    --color-btn-primary-bg:   #5b52e0;
+    --color-btn-primary-text: #ffffff;
+    --color-btn-secondary-bg: #2e2d48;
+    --color-btn-secondary-text: #c8c8da;
+
+    --color-table-header-bg:  #2a2058;
+    --color-table-header-text:#e4e4ed;
+
+    --color-tag-bg:           #302d50;
+    --color-chip-bg:          #2a2944;
+    --color-chip-selected-bg: #3d3868;
+
+    --color-code-bg:          #27263f;
+    --color-input-bg:         #1f1e36;
+
+    --color-error-bg:         #3d1a1a;
+    --color-error-text:       #f87171;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.theme-toggle:hover {
+  background: var(--color-bg-subtle);
+  border-color: var(--color-accent);
+}
