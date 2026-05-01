@@ -456,6 +456,14 @@ def delete_entry(entry_id: int):
 def read_root():
     return {"message": "Media Tracker API"}
 
+@app.get("/api/health")
+def health():
+    return {"ok": True}
+
+@app.get("/api/debug/cors")
+def debug_cors():
+    return {"cors_origins": cors_origins}
+
 @app.get("/api/hello")
 def hello():
     return {"message": "hello, world!"}
