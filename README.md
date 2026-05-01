@@ -1,5 +1,7 @@
-## Media Tracker (CS 348)
-[Live Demo Site](https://web-app-front-3i1e.onrender.com/)
+# Media Tracker Application (CS 348)
+## Live Deployment
+
+Hosted on the cloud with Render:  [Live Demo Site](https://web-app-front-3i1e.onrender.com/)
 
 ## Tech Stack
 
@@ -7,7 +9,8 @@
 - **Backend**: Python + FastAPI
 - **Database**: PostgreSQL + SQLAlchemy Core
 
-## Setup
+---
+## Local Development Setup
 
 ### Prerequisites
 
