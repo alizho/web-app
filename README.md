@@ -1,3 +1,6 @@
+## Media Tracker (CS 348)
+[Live Demo Site](https://web-app-front-3i1e.onrender.com/)
+
 ## Tech Stack
 
 - **Frontend**: React with Vite
@@ -101,68 +104,6 @@
 
    The frontend will be available at `http://localhost:5173`
 
-## Deployment
-
-### Backend on Render
-
-Create a **Web Service** on Render for the FastAPI backend.
-
-Recommended settings:
-
-- **Root Directory**: `backend`
-- **Runtime**: Python
-- **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-
-Environment variables:
-
-- `DATABASE_URL`: your Render Postgres connection string
-- `CORS_ORIGINS`: your deployed frontend URL, for example `https://your-app.vercel.app`
-- `UPLOAD_DIR`: optional; use a Render persistent disk path like `/var/data/uploads` if uploaded images must survive deploys
-- `SQL_ECHO`: `false`
-
-After the service is deployed, initialize the database once from Render's shell:
-
-```bash
-python init_db.py
-```
-
-`init_db.py` drops and recreates the app tables, so do not run it again after users have created real data unless you intentionally want to reset the database.
-
-### Frontend on Vercel
-
-This project currently has a separate Vite frontend, so the simplest deployment is to host it separately on Vercel or as a Render Static Site.
-
-Vercel settings:
-
-- **Root Directory**: `frontend`
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-
-Environment variables:
-
-- `VITE_API_URL`: your Render backend URL, for example `https://your-backend.onrender.com`
-
-After Vercel gives you the frontend URL, add that exact URL to the backend's `CORS_ORIGINS` environment variable in Render and redeploy the backend.
-
-## Running the Application
-
-1. **Start the backend** (in one terminal):
-   ```bash
-   cd backend
-   source venv/bin/activate  # If using virtual environment
-   uvicorn main:app --reload
-   ```
-
-2. **Start the frontend** (in another terminal):
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-3. **Open your browser** and navigate to `http://localhost:5173`
-
-   You should see the application!
 
 ## Project Structure
 
