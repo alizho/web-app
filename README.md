@@ -134,6 +134,6 @@ web-app/
 - Debugging issues when I got stuck, including errors during database setup and configuration.
 - Generating/improving code snippets (for example creating CSS variables for UI color themes and generating redundant code for similar funtions.)
 - Generate the initial sample database content so I did not have to manually type out data.
-- Explaining error messages and troubleshooting efficiency issues.
+- Formatting and prettiness of code, adding comments.
 3. **How I verified or modified the AI-generated output**
 - For verifying output, I cross-checked technical claims and code against official documentation out there, including SQLAlchemy, FastAPI, and PostgreSQL. I also researched independently and tested outputs to confirm correctness. Any generated code was modified and understood by me to fit my project requirements and application logic rather than being copied directly.
