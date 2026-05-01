@@ -11,7 +11,7 @@ from sqlalchemy import select, insert, update, delete
 from typing import Optional
 from datetime import date
 
-from database import engine
+from database import engine, metadata
 from models import media, entries, emotions, entry_emotions, companions
 
 UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", str(Path(__file__).resolve().parent / "uploads")))
@@ -35,6 +35,74 @@ app.add_middleware(
 )
 
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
+
+
+def ensure_database():
+    """Create missing tables and seed sample data without deleting existing data."""
+    metadata.create_all(engine)
+
+    with engine.begin() as conn:
+        has_emotions = conn.execute(select(emotions.c.id).limit(1)).first() is not None
+        if not has_emotions:
+            conn.execute(emotions.insert(), [
+                {"name": "joy", "valence": "positive", "image_path": "joy.png"},
+                {"name": "anger", "valence": "negative", "image_path": "anger.png"},
+                {"name": "disgust", "valence": "negative", "image_path": "disgust.png"},
+                {"name": "inspired", "valence": "positive", "image_path": None},
+                {"name": "fear", "valence": "negative", "image_path": "fear.png"},
+                {"name": "calm", "valence": "positive", "image_path": None},
+                {"name": "excited", "valence": "positive", "image_path": "excited.png"},
+                {"name": "sad", "valence": "negative", "image_path": "sad.png"},
+                {"name": "hopeful", "valence": "positive", "image_path": None},
+            ])
+
+        has_media = conn.execute(select(media.c.id).limit(1)).first() is not None
+        if has_media:
+            return
+
+        inserted_media = conn.execute(
+            insert(media).returning(media.c.id, media.c.title),
+            [
+                {"title": "Past Lives", "media_type": "film", "genre": "drama", "creator": "Celine Song", "release_year": 2023},
+                {"title": "Dune: Part Two", "media_type": "film", "genre": "sci-fi", "creator": "Denis Villeneuve", "release_year": 2024},
+                {"title": "The Way of Kings", "media_type": "book", "genre": "fantasy", "creator": "Brandon Sanderson", "release_year": 2010},
+            ],
+        ).mappings().all()
+        media_ids = {row["title"]: row["id"] for row in inserted_media}
+
+        inserted_entries = conn.execute(
+            insert(entries).returning(entries.c.id, entries.c.media_id),
+            [
+                {"media_id": media_ids["Past Lives"], "rating": 5, "watched_at": date(2024, 2, 15), "rewatch": False},
+                {"media_id": media_ids["Dune: Part Two"], "rating": 4, "watched_at": date(2024, 3, 1), "rewatch": False},
+                {"media_id": media_ids["The Way of Kings"], "rating": 4, "watched_at": date(2024, 1, 20), "rewatch": True},
+            ],
+        ).mappings().all()
+        entry_ids_by_media_id = {row["media_id"]: row["id"] for row in inserted_entries}
+
+        emotion_ids = {
+            row["name"]: row["id"]
+            for row in conn.execute(select(emotions.c.id, emotions.c.name)).mappings().all()
+        }
+
+        conn.execute(entry_emotions.insert(), [
+            {"entry_id": entry_ids_by_media_id[media_ids["Past Lives"]], "emotion_id": emotion_ids["joy"], "intensity": 5},
+            {"entry_id": entry_ids_by_media_id[media_ids["Past Lives"]], "emotion_id": emotion_ids["fear"], "intensity": 4},
+            {"entry_id": entry_ids_by_media_id[media_ids["Dune: Part Two"]], "emotion_id": emotion_ids["excited"], "intensity": 4},
+            {"entry_id": entry_ids_by_media_id[media_ids["The Way of Kings"]], "emotion_id": emotion_ids["anger"], "intensity": 3},
+            {"entry_id": entry_ids_by_media_id[media_ids["The Way of Kings"]], "emotion_id": emotion_ids["hopeful"], "intensity": 4},
+        ])
+
+        conn.execute(companions.insert(), [
+            {"entry_id": entry_ids_by_media_id[media_ids["Past Lives"]], "name": "Jadden", "relationship": "friend"},
+            {"entry_id": entry_ids_by_media_id[media_ids["Dune: Part Two"]], "name": "Solo", "relationship": "solo"},
+            {"entry_id": entry_ids_by_media_id[media_ids["The Way of Kings"]], "name": "Solo", "relationship": "solo"},
+        ])
+
+
+@app.on_event("startup")
+def startup():
+    ensure_database()
 
 
 # --- Pydantic models ---
