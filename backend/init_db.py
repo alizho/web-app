@@ -1,6 +1,5 @@
 """
-Initialize database: create tables and seed sample data for Media Tracker.
-Run once: python init_db.py
+init once: python init_db.py
 """
 from sqlalchemy import text
 from datetime import date
@@ -8,8 +7,6 @@ from database import engine, metadata
 from models import media, entries, emotions, entry_emotions, companions
 
 def init_db():
-    """Create all tables and insert sample data."""
-    # Drop old schema tables if migrating from student app
     with engine.begin() as conn:
         for table in ["entry_emotions", "companions", "entries", "emotions", "media",
                       "enrollments", "courses", "students"]:

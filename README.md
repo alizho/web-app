@@ -1,15 +1,10 @@
-# Web Application - Stage 1 & 2
-
-Stage 1: Minimal "Hello World" web application.  
-Stage 2: **Media Tracker** — log media, emotions, companions. Database: media, entries, emotions, entry_emotions, companions. CRUD, filtering/reporting, dynamic UI from DB.
-
 ## Tech Stack
 
 - **Frontend**: React with Vite
 - **Backend**: Python + FastAPI
 - **Database**: PostgreSQL + SQLAlchemy Core
 
-## Setup Instructions
+## Setup
 
 ### Prerequisites
 
@@ -123,20 +118,7 @@ Stage 2: **Media Tracker** — log media, emotions, companions. Database: media,
 
 3. **Open your browser** and navigate to `http://localhost:5173`
 
-   You should see "Hello world" displayed on the page, fetched from the backend API.
-
-## API Endpoints
-
-- `GET /api/hello` - Returns `{"message": "Hello world"}`
-- **Media Tracker (Stage 2)**
-  - `GET /api/media` - List media (for dynamic dropdown)
-  - `POST /api/media` - Create media
-  - `GET /api/emotions` - List emotions (for dynamic dropdown)
-  - `GET /api/entries` - List entries; optional: `rating_min`, `rating_max`, `date_from`, `date_to`, `media_type`
-  - `POST /api/entries` - Create entry (media_id, rating, watched_at, rewatch, emotions, companions)
-  - `GET /api/entries/{id}` - Get one entry
-  - `PUT /api/entries/{id}` - Update entry
-  - `DELETE /api/entries/{id}` - Delete entry
+   You should see the application!
 
 ## Project Structure
 
@@ -147,7 +129,6 @@ web-app/
 │   ├── models.py            # DB tables: media, entries, emotions, entry_emotions, companions
 │   ├── init_db.py           # Create tables and seed data (run once)
 │   ├── database.py          # SQLAlchemy Core database configuration
-│   ├── database_example.py  # Example usage
 │   ├── requirements.txt    # Python dependencies
 │   └── .env                 # Environment variables
 ├── frontend/
@@ -158,102 +139,13 @@ web-app/
 └── README.md
 ```
 
-## Database Configuration
-
-The project uses SQLAlchemy Core for database operations. Database configuration is managed through environment variables in `backend/.env`:
-
-- `DB_HOST`: PostgreSQL host (default: localhost)
-- `DB_PORT`: PostgreSQL port (default: 5432)
-- `DB_NAME`: Database name (default: webapp_db)
-- `DB_USER`: PostgreSQL user (default: postgres)
-- `DB_PASSWORD`: PostgreSQL password
-
-The database connection is set up in `backend/database.py` and can be imported in your FastAPI routes:
-
-```python
-from database import engine, metadata, get_engine
-
-# Use engine for raw SQL queries or SQLAlchemy Core operations
-with engine.connect() as conn:
-    result = conn.execute(text("SELECT * FROM your_table"))
-```
-
-## Verification
-
-To verify everything is working:
-
-1. Backend should respond at `http://localhost:8000/api/hello` with:
-   ```json
-   {"message": "hello, world!"}
-   ```
-
-2. Frontend should display "hello, world!" on the page.
-
-3. Check browser console for any errors (should be none).
-
-## PostgreSQL & SQLAlchemy Core Setup
-
-The project is configured to use PostgreSQL with SQLAlchemy Core. Here's how to get it ready:
-
-### Quick Setup Steps
-
-**Important**: PostgreSQL itself is installed at the **system level** (not in venv). The Python packages that connect to PostgreSQL are installed in the venv.
-
-**Step 1-2: System-level PostgreSQL** (run these OUTSIDE the venv):
-1. **Install PostgreSQL** (if not installed):
-   - macOS: `brew install postgresql@15`
-   - Linux: `sudo apt-get install postgresql postgresql-contrib`
-   - Windows: Download from [postgresql.org](https://www.postgresql.org/download/)
-
-2. **Start PostgreSQL service**:
-   - macOS: `brew services start postgresql@15`
-   - Linux: `sudo systemctl start postgresql`
-
-**Step 3: Create database** (run `psql` OUTSIDE the venv):
-3. **Create database**:
-   ```bash
-   psql postgres
-   CREATE DATABASE webapp_db;
-   \q
-   ```
-
-**Step 4-6: Python setup** (run these INSIDE the venv):
-4. **Activate virtual environment**:
-   ```bash
-   cd backend
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-5. **Install Python dependencies** (installs PostgreSQL adapter packages in venv):
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-6. **Configure environment variables**:
-   ```bash
-   cp env.example .env
-   # Edit .env with your PostgreSQL credentials
-   ```
-
-7. **Test database connection** (with venv activated):
-   ```bash
-   python database_example.py
-   ```
-
-### Using the Database in Your Code
-
-Import the database engine and metadata in your FastAPI routes:
-
-```python
-from database import engine, metadata, get_engine
-from sqlalchemy import text
-
-@app.get("/api/test-db")
-def test_db():
-    with engine.connect() as conn:
-        result = conn.execute(text("SELECT version()"))
-        version = result.fetchone()
-        return {"postgresql_version": version[0]}
-```
-
-See `backend/database_example.py` for more usage examples.
+## AI Usage
+1. **Which AI tools were used**
+- I mainly used Claude Sonnet and ChatGPT.
+2. **What tasks the AI assisted with**
+- Debugging issues when I got stuck, including errors during database setup and configuration.
+- Generating/improving code snippets (for example creating CSS variables for UI color themes and generating redundant code for similar funtions.)
+- Generate the initial sample database content so I did not have to manually type out data.
+- Explaining error messages and troubleshooting efficiency issues.
+3. **How I verified or modified the AI-generated output**
+- For verifying output, I cross-checked technical claims and code against official documentation out there, including SQLAlchemy, FastAPI, and PostgreSQL. I also researched independently and tested outputs to confirm correctness. Any generated code was modified and understood by me to fit my project requirements and application logic rather than being copied directly.
